@@ -4,8 +4,8 @@
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  color: #ffffff;
-  background: #081316;
+  color: #0c4a6e;
+  background: #82cee5;
 }
 
 body {
@@ -20,9 +20,11 @@ select {
 
 option {
   color: #172033;
+  background: #f0fbff;
 }
 
 .dashboard-bg {
+  background-image: url("./assets/flight-map-bg.svg");
   background-position: center;
   background-size: cover;
   background-attachment: fixed;
@@ -35,9 +37,9 @@ option {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 70% 45%, rgba(203, 232, 218, 0.2), transparent 26%),
-    linear-gradient(90deg, rgba(5, 13, 17, 0.58), rgba(9, 23, 29, 0.26) 48%, rgba(5, 11, 14, 0.68)),
-    linear-gradient(180deg, rgba(2, 10, 13, 0.28), rgba(2, 8, 10, 0.6));
+    radial-gradient(circle at 20% 12%, rgba(255, 255, 255, 0.45), transparent 24%),
+    radial-gradient(circle at 78% 28%, rgba(255, 255, 255, 0.34), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(42, 163, 207, 0.18));
 }
 
 .dashboard-bg > * {
@@ -46,44 +48,44 @@ option {
 }
 
 .glass-shell {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 34px;
   background:
-    linear-gradient(135deg, rgba(96, 122, 126, 0.42), rgba(37, 44, 40, 0.54)),
-    rgba(255, 255, 255, 0.1);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(226, 248, 255, 0.58)),
+    rgba(255, 255, 255, 0.64);
   box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(22px) saturate(140%);
+    0 30px 90px rgba(8, 47, 73, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(18px) saturate(150%);
 }
 
 .glass-card {
-  border: 1px solid rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 22px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.055)),
-    rgba(21, 27, 25, 0.28);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(224, 247, 255, 0.48)),
+    rgba(255, 255, 255, 0.46);
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(18px) saturate(130%);
+    0 18px 44px rgba(8, 47, 73, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px) saturate(145%);
 }
 
 .glass-nav {
   margin-top: 210px;
   max-height: 390px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.68);
   border-radius: 999px;
-  background: rgba(111, 131, 111, 0.36);
-  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(18px) saturate(130%);
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 24px 58px rgba(8, 47, 73, 0.16);
+  backdrop-filter: blur(16px) saturate(140%);
 }
 
 .glass-input {
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(125, 211, 252, 0.68);
+  background: rgba(255, 255, 255, 0.58);
+  color: #0c4a6e;
   font-size: 0.875rem;
   outline: none;
   transition:
@@ -93,17 +95,17 @@ option {
 }
 
 .glass-input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(12, 74, 110, 0.45);
 }
 
 .glass-input:focus {
-  border-color: rgba(190, 220, 37, 0.72);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 4px rgba(190, 220, 37, 0.13);
+  border-color: rgba(2, 132, 199, 0.8);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.16);
 }
 
 .overflow-x-auto {
-  scrollbar-color: rgba(255, 255, 255, 0.36) rgba(255, 255, 255, 0.08);
+  scrollbar-color: rgba(14, 116, 144, 0.42) rgba(255, 255, 255, 0.46);
   scrollbar-width: thin;
 }
 
@@ -112,12 +114,12 @@ option {
 }
 
 .overflow-x-auto::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.46);
   border-radius: 999px;
 }
 
 .overflow-x-auto::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(14, 116, 144, 0.42);
   border-radius: 999px;
 }
 

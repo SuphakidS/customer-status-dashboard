@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid slice">
+  <rect width="2048" height="1152" fill="#82cee5"/>
+  <g fill="none" stroke-linecap="round" stroke-dasharray="1 11">
+    <path d="M-90 300C210 430 365 210 585 310S830 600 1070 520 1325 215 1600 300s300 305 560 215" stroke="#ffffff" stroke-width="6" opacity=".82"/>
+    <path d="M-70 820C210 570 410 940 650 780s380-430 650-300 390 530 810 125" stroke="#ffffff" stroke-width="5" opacity=".72"/>
+    <path d="M70-90C265 230 415 360 520 610s250 365 510 260 400-270 710-70 380 20 430-210" stroke="#ffffff" stroke-width="4" opacity=".48"/>
+    <path d="M365-80C470 160 395 380 570 520s410 80 500 280 140 370 425 360" stroke="#dff7ff" stroke-width="5" opacity=".46"/>
+    <path d="M-80 540C210 630 245 735 440 755s315-135 545-70 420 320 690 215 230-360 510-370" stroke="#dff7ff" stroke-width="4" opacity=".46"/>
+    <path d="M1120-70C920 220 860 445 1030 610s455 185 480 390 215 170 560 95" stroke="#dff7ff" stroke-width="4" opacity=".44"/>
+    <path d="M1560-75C1430 120 1465 285 1640 355s345-60 480 80" stroke="#ffffff" stroke-width="5" opacity=".68"/>
+    <path d="M-120 1010C115 1190 390 1035 620 1088s360 250 680-15 545-140 820-30" stroke="#ffffff" stroke-width="5" opacity=".64"/>
+  </g>
+  <g fill="#ffffff">
+    <path transform="translate(170 135) rotate(30) scale(1.15)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(520 245) rotate(64) scale(.95)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(830 260) rotate(13) scale(1.08)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1580 500) rotate(0) scale(1.1)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1815 135) rotate(20) scale(1.05)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(335 870) rotate(42) scale(.96)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1320 690) rotate(-12) scale(.95)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1840 1020) rotate(45) scale(1.05)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+  </g>
+  <g fill="#e8f8ff" opacity=".33">
+    <path transform="translate(240 245) rotate(35) scale(1.1)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(690 220) rotate(18) scale(1)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1255 315) rotate(32) scale(.92)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(700 580) rotate(0) scale(.95)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1020 755) rotate(80) scale(.88)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1530 1070) rotate(75) scale(.96)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+    <path transform="translate(1870 455) rotate(21) scale(.9)" d="M0-58 18-8 80 8 84 20 18 16 0 68-18 16-84 20-80 8-18-8z"/>
+  </g>
+</svg>

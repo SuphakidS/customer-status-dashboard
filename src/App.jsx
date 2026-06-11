@@ -22,7 +22,6 @@ import {
   Tooltip
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
-import officeBg from "./assets/glass-office-bg.png";
 import { mockCustomers } from "./data/mockCustomers";
 
 ChartJS.register(
@@ -35,31 +34,31 @@ ChartJS.register(
 );
 
 const statusStyles = {
-  Active: "border-emerald-300/40 bg-emerald-300/18 text-emerald-100",
-  "Credit Hold": "border-amber-300/40 bg-amber-300/18 text-amber-100",
-  Suspended: "border-rose-300/45 bg-rose-300/20 text-rose-100"
+  Active: "border-emerald-300 bg-emerald-50 text-emerald-700",
+  "Credit Hold": "border-amber-300 bg-amber-50 text-amber-700",
+  Suspended: "border-rose-300 bg-rose-50 text-rose-700"
 };
 
 const riskStyles = {
-  Low: "border-teal-300/40 bg-teal-300/18 text-teal-100",
-  Medium: "border-sky-300/40 bg-sky-300/18 text-sky-100",
-  High: "border-red-300/45 bg-red-300/20 text-red-100"
+  Low: "border-teal-300 bg-teal-50 text-teal-700",
+  Medium: "border-sky-300 bg-sky-50 text-sky-700",
+  High: "border-red-300 bg-red-50 text-red-700"
 };
 
 const chartColors = {
-  Active: "#b7dc25",
-  "Credit Hold": "#f6c50f",
-  Suspended: "#f05b5b",
-  Low: "#36d49b",
-  Medium: "#33b9ef",
-  High: "#f05b5b"
+  Active: "#0ea5a3",
+  "Credit Hold": "#f59e0b",
+  Suspended: "#ef4444",
+  Low: "#14b8a6",
+  Medium: "#0284c7",
+  High: "#ef4444"
 };
 
 const kpiTones = {
-  cyan: "from-cyan-300/30 to-white/5 text-cyan-100",
-  green: "from-lime-300/30 to-white/5 text-lime-100",
-  yellow: "from-yellow-300/30 to-white/5 text-yellow-100",
-  red: "from-red-300/30 to-white/5 text-red-100"
+  cyan: "from-cyan-500 to-sky-400 text-white shadow-cyan-500/20",
+  green: "from-teal-500 to-emerald-400 text-white shadow-teal-500/20",
+  yellow: "from-amber-400 to-orange-400 text-white shadow-amber-500/20",
+  red: "from-rose-500 to-red-400 text-white shadow-rose-500/20"
 };
 
 const formatCurrency = (value) =>
@@ -93,10 +92,10 @@ function KpiCard({ title, value, icon: Icon, tone }) {
     <section className="glass-card p-4">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-white/62">{title}</p>
-          <p className="mt-2 text-2xl font-bold tracking-normal text-white">{value}</p>
+          <p className="text-sm font-medium text-sky-800/65">{title}</p>
+          <p className="mt-2 text-2xl font-bold tracking-normal text-sky-950">{value}</p>
         </div>
-        <div className={`rounded-full bg-gradient-to-br p-3 ${kpiTones[tone]}`}>
+        <div className={`rounded-full bg-gradient-to-br p-3 shadow-lg ${kpiTones[tone]}`}>
           <Icon className="h-6 w-6" aria-hidden="true" />
         </div>
       </div>
@@ -161,7 +160,7 @@ function App() {
       {
         data: riskChartData.map((entry) => entry.value),
         backgroundColor: riskChartData.map((entry) => chartColors[entry.name]),
-        borderColor: "rgba(255, 255, 255, 0.18)",
+        borderColor: "rgba(255, 255, 255, 0.82)",
         borderWidth: 2,
         hoverOffset: 8,
         cutout: "64%"
@@ -171,8 +170,7 @@ function App() {
 
   return (
     <main
-      className="dashboard-bg min-h-screen overflow-x-hidden px-4 py-6 text-white sm:px-6 lg:px-8"
-      style={{ backgroundImage: `url(${officeBg})` }}
+      className="dashboard-bg min-h-screen overflow-x-hidden px-4 py-6 text-sky-950 sm:px-6 lg:px-8"
     >
       <div className="mx-auto flex max-w-[1500px] gap-5">
         <nav className="glass-nav hidden shrink-0 flex-col items-center gap-5 px-3 py-5 lg:flex">
@@ -182,8 +180,8 @@ function App() {
                 key={index}
                 className={`grid h-11 w-11 place-items-center rounded-full border transition ${
                   index === 0
-                    ? "border-white/30 bg-white/22 text-white shadow-lg"
-                    : "border-white/12 bg-white/8 text-white/72 hover:bg-white/16"
+                    ? "border-sky-300 bg-white/65 text-sky-700 shadow-lg"
+                    : "border-sky-200/60 bg-white/35 text-sky-700/72 hover:bg-white/60"
                 }`}
                 aria-label={`Dashboard navigation ${index + 1}`}
               >
@@ -194,25 +192,25 @@ function App() {
         </nav>
 
         <div className="glass-shell min-w-0 flex-1 p-5 md:p-7">
-          <header className="flex flex-col gap-5 border-b border-white/10 pb-5 md:flex-row md:items-center md:justify-between">
+          <header className="flex flex-col gap-5 border-b border-sky-200/60 pb-5 md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-lime-200/80">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-700">
                 Marketing & Supervisor View
               </p>
-              <h1 className="mt-2 text-4xl font-bold tracking-normal text-white md:text-5xl">
+              <h1 className="mt-2 text-4xl font-bold tracking-normal text-sky-950 md:text-5xl">
                 Customer Status Dashboard
               </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-white/68">
+              <p className="mt-3 max-w-3xl text-sm leading-6 text-sky-900/68">
                 Prototype dashboard for monitoring customer health, credit usage,
                 payment status, and risk level in one clear overview.
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="hidden rounded-full border border-white/12 bg-white/10 p-3 text-white/80 sm:grid">
+              <div className="hidden rounded-full border border-sky-200/70 bg-white/50 p-3 text-sky-700 sm:grid">
                 <Bell className="h-5 w-5" />
               </div>
-              <div className="rounded-full border border-white/16 bg-white/12 p-1">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-lime-200 to-cyan-200 text-slate-900">
+              <div className="rounded-full border border-sky-200/70 bg-white/45 p-1">
+                <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-sky-400 text-white">
                   <UserRound className="h-6 w-6" />
                 </div>
               </div>
@@ -248,10 +246,10 @@ function App() {
 
           <section className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_390px]">
             <div className="glass-card min-w-0 overflow-hidden">
-              <div className="border-b border-white/10 p-4">
+              <div className="border-b border-sky-200/60 p-4">
                 <div className="grid gap-3 md:grid-cols-[minmax(220px,1fr)_180px_180px]">
                   <label className="relative block">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/46" />
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-sky-700/45" />
                     <input
                       value={searchTerm}
                       onChange={(event) => setSearchTerm(event.target.value)}
@@ -284,7 +282,7 @@ function App() {
 
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[1050px] text-left text-sm">
-                  <thead className="bg-white/8 text-xs uppercase text-white/50">
+                  <thead className="bg-sky-100/55 text-xs uppercase text-sky-800/55">
                     <tr>
                       <th className="px-4 py-3 font-semibold">Customer Code</th>
                       <th className="px-4 py-3 font-semibold">Customer Name</th>
@@ -302,37 +300,37 @@ function App() {
                       <tr
                         key={customer.customerCode}
                         onClick={() => setSelectedCustomerCode(customer.customerCode)}
-                        className={`cursor-pointer transition hover:bg-white/12 ${
+                        className={`cursor-pointer transition hover:bg-sky-100/70 ${
                           selectedCustomer.customerCode === customer.customerCode
-                            ? "bg-cyan-300/14"
+                            ? "bg-cyan-100/75"
                             : "bg-transparent"
                         }`}
                       >
-                        <td className="px-4 py-3 font-semibold text-white">
+                        <td className="px-4 py-3 font-semibold text-sky-950">
                           {customer.customerCode}
                         </td>
-                        <td className="px-4 py-3 text-white/82">
+                        <td className="px-4 py-3 text-sky-900/82">
                           {customer.customerName}
                         </td>
-                        <td className="px-4 py-3 text-white/62">
+                        <td className="px-4 py-3 text-sky-900/62">
                           {customer.customerGroup}
                         </td>
                         <td className="px-4 py-3">
                           <Badge value={customer.status} />
                         </td>
-                        <td className="px-4 py-3 text-white/62">
+                        <td className="px-4 py-3 text-sky-900/62">
                           {customer.marketingOwner}
                         </td>
-                        <td className="px-4 py-3 text-right font-medium text-white/86">
+                        <td className="px-4 py-3 text-right font-medium text-sky-950/86">
                           {formatCurrency(customer.outstandingBalance)}
                         </td>
-                        <td className="px-4 py-3 text-white/62">
+                        <td className="px-4 py-3 text-sky-900/62">
                           {customer.paymentStatus}
                         </td>
                         <td className="px-4 py-3">
                           <Badge value={customer.riskLevel} type="risk" />
                         </td>
-                        <td className="px-4 py-3 text-white/62">
+                        <td className="px-4 py-3 text-sky-900/62">
                           {customer.lastTransactionDate}
                         </td>
                       </tr>
@@ -340,7 +338,7 @@ function App() {
                   </tbody>
                 </table>
                 {filteredCustomers.length === 0 && (
-                  <div className="p-8 text-center text-sm text-white/58">
+                  <div className="p-8 text-center text-sm text-sky-800/58">
                     No customers match the current filters.
                   </div>
                 )}
@@ -350,13 +348,13 @@ function App() {
             <aside className="glass-card p-5">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-lime-200/85">
+                  <p className="text-sm font-semibold text-cyan-700">
                     Selected Customer
                   </p>
-                  <h2 className="mt-1 text-2xl font-bold tracking-normal text-white">
+                  <h2 className="mt-1 text-2xl font-bold tracking-normal text-sky-950">
                     {selectedCustomer.customerName}
                   </h2>
-                  <p className="mt-1 text-sm text-white/55">
+                  <p className="mt-1 text-sm text-sky-800/55">
                     {selectedCustomer.customerCode} - {selectedCustomer.customerGroup}
                   </p>
                 </div>
@@ -389,12 +387,12 @@ function App() {
                 <DetailItem label="Supervisor" value={selectedCustomer.supervisor} />
               </dl>
 
-              <div className="mt-5 rounded-2xl border border-white/10 bg-white/9 p-4 shadow-inner">
-                <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                  <AlertTriangle className="h-4 w-4 text-yellow-200" />
+              <div className="mt-5 rounded-2xl border border-sky-200/60 bg-white/45 p-4 shadow-inner">
+                <div className="flex items-center gap-2 text-sm font-semibold text-sky-950">
+                  <AlertTriangle className="h-4 w-4 text-amber-500" />
                   Remark
                 </div>
-                <p className="mt-2 text-sm leading-6 text-white/66">
+                <p className="mt-2 text-sm leading-6 text-sky-900/66">
                   {selectedCustomer.remark}
                 </p>
               </div>
@@ -417,7 +415,7 @@ function App() {
                   {riskChartData.map((entry) => (
                     <span
                       key={entry.name}
-                      className="flex items-center justify-between gap-3 border-b border-white/10 pb-3 text-sm text-white/70"
+                      className="flex items-center justify-between gap-3 border-b border-sky-200/70 pb-3 text-sm text-sky-900/70"
                     >
                       <span className="flex items-center gap-2">
                         <span
@@ -426,7 +424,7 @@ function App() {
                         />
                         {entry.name}
                       </span>
-                      <strong className="text-white">{entry.value}</strong>
+                      <strong className="text-sky-950">{entry.value}</strong>
                     </span>
                   ))}
                 </div>
@@ -439,8 +437,8 @@ function App() {
   );
 }
 
-const chartTextColor = "rgba(255, 255, 255, 0.68)";
-const chartGridColor = "rgba(255, 255, 255, 0.12)";
+const chartTextColor = "rgba(12, 74, 110, 0.68)";
+const chartGridColor = "rgba(14, 116, 144, 0.14)";
 
 const barChartOptions = {
   responsive: true,
@@ -448,8 +446,8 @@ const barChartOptions = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: "rgba(20, 32, 36, 0.9)",
-      borderColor: "rgba(255, 255, 255, 0.16)",
+      backgroundColor: "rgba(8, 47, 73, 0.92)",
+      borderColor: "rgba(255, 255, 255, 0.74)",
       borderWidth: 1,
       cornerRadius: 14,
       titleColor: "#fff",
@@ -477,8 +475,8 @@ const doughnutChartOptions = {
   plugins: {
     legend: { display: false },
     tooltip: {
-      backgroundColor: "rgba(20, 32, 36, 0.9)",
-      borderColor: "rgba(255, 255, 255, 0.16)",
+      backgroundColor: "rgba(8, 47, 73, 0.92)",
+      borderColor: "rgba(255, 255, 255, 0.74)",
       borderWidth: 1,
       cornerRadius: 14,
       titleColor: "#fff",
@@ -490,9 +488,9 @@ const doughnutChartOptions = {
 
 function DetailItem({ label, value }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/9 p-3 shadow-inner">
-      <dt className="text-xs font-semibold uppercase text-white/45">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold text-white">{value}</dd>
+    <div className="rounded-2xl border border-sky-200/60 bg-white/45 p-3 shadow-inner">
+      <dt className="text-xs font-semibold uppercase text-sky-800/55">{label}</dt>
+      <dd className="mt-1 text-sm font-semibold text-sky-950">{value}</dd>
     </div>
   );
 }
@@ -502,12 +500,12 @@ function ChartCard({ title, icon: Icon, children }) {
     <section className="glass-card p-5">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="rounded-full border border-white/12 bg-white/12 p-2.5 text-lime-100">
+          <div className="rounded-full border border-sky-200/70 bg-white/55 p-2.5 text-cyan-700">
             <Icon className="h-5 w-5" aria-hidden="true" />
           </div>
-          <h2 className="text-xl font-bold tracking-normal text-white">{title}</h2>
+          <h2 className="text-xl font-bold tracking-normal text-sky-950">{title}</h2>
         </div>
-        <span className="text-sm text-white/55">Monthly</span>
+        <span className="text-sm text-sky-800/55">Monthly</span>
       </div>
       {children}
     </section>
