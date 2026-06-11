@@ -1,18 +1,5 @@
 import { useMemo, useState } from "react";
 import {
-  AlertTriangle,
-  Bell,
-  CheckCircle2,
-  CircleDollarSign,
-  Gauge,
-  LayoutDashboard,
-  Search,
-  ShieldAlert,
-  SlidersHorizontal,
-  UserRound,
-  Users
-} from "lucide-react";
-import {
   ArcElement,
   BarElement,
   CategoryScale,
@@ -21,6 +8,25 @@ import {
   LinearScale,
   Tooltip
 } from "chart.js";
+import {
+  Bell,
+  CalendarDays,
+  CheckCircle2,
+  CircleDollarSign,
+  CreditCard,
+  FileText,
+  Gauge,
+  LayoutDashboard,
+  MapPin,
+  Package,
+  Plane,
+  Search,
+  Settings,
+  ShieldAlert,
+  Ticket,
+  UserRound,
+  Users
+} from "lucide-react";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { mockCustomers } from "./data/mockCustomers";
 
@@ -33,32 +39,111 @@ ChartJS.register(
   Tooltip
 );
 
-const statusStyles = {
-  Active: "border-emerald-300 bg-emerald-50 text-emerald-700",
-  "Credit Hold": "border-amber-300 bg-amber-50 text-amber-700",
-  Suspended: "border-rose-300 bg-rose-50 text-rose-700"
-};
+const mockBookings = [
+  {
+    pnr: "A8K2LD",
+    routing: "BKK - SIN",
+    departureDate: "2026-06-18",
+    status: "Confirmed"
+  },
+  {
+    pnr: "Q7N4PX",
+    routing: "BKK - HND",
+    departureDate: "2026-06-21",
+    status: "Ticketed"
+  },
+  {
+    pnr: "J2V9SM",
+    routing: "CNX - BKK",
+    departureDate: "2026-06-24",
+    status: "Cancelled"
+  },
+  {
+    pnr: "M5T1RA",
+    routing: "BKK - ICN",
+    departureDate: "2026-06-28",
+    status: "Ticketed"
+  },
+  {
+    pnr: "Z3P8UC",
+    routing: "HKT - BKK",
+    departureDate: "2026-07-02",
+    status: "Refunded"
+  },
+  {
+    pnr: "L9B6HY",
+    routing: "BKK - DPS",
+    departureDate: "2026-07-06",
+    status: "Confirmed"
+  }
+];
 
-const riskStyles = {
-  Low: "border-teal-300 bg-teal-50 text-teal-700",
-  Medium: "border-sky-300 bg-sky-50 text-sky-700",
-  High: "border-red-300 bg-red-50 text-red-700"
+const mockInvoices = [
+  {
+    invoiceNo: "INV-2026-031",
+    date: "2026-06-10",
+    amount: 1680000,
+    status: "Issued"
+  },
+  {
+    invoiceNo: "INV-2026-030",
+    date: "2026-06-08",
+    amount: 560000,
+    status: "Paid"
+  },
+  {
+    invoiceNo: "INV-2026-029",
+    date: "2026-06-05",
+    amount: 970000,
+    status: "Overdue"
+  },
+  {
+    invoiceNo: "INV-2026-028",
+    date: "2026-06-03",
+    amount: 435000,
+    status: "Paid"
+  },
+  {
+    invoiceNo: "INV-2026-027",
+    date: "2026-05-30",
+    amount: 260000,
+    status: "Cancelled"
+  }
+];
+
+const navItems = [
+  { label: "Dashboard", icon: LayoutDashboard },
+  { label: "Bookings", icon: Plane },
+  { label: "Packages", icon: Package },
+  { label: "Customers", icon: Users },
+  { label: "Invoices", icon: FileText },
+  { label: "Analytics", icon: Gauge },
+  { label: "Settings", icon: Settings }
+];
+
+const statusStyles = {
+  Active: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  "Credit Hold": "bg-red-50 text-red-700 ring-red-200",
+  Suspended: "bg-zinc-100 text-zinc-700 ring-zinc-200",
+  Low: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  Medium: "bg-red-50 text-red-700 ring-red-200",
+  High: "bg-rose-50 text-rose-700 ring-rose-200",
+  Confirmed: "bg-red-50 text-red-700 ring-red-200",
+  Ticketed: "bg-zinc-900 text-white ring-zinc-900",
+  Cancelled: "bg-zinc-100 text-zinc-600 ring-zinc-200",
+  Refunded: "bg-zinc-100 text-zinc-600 ring-zinc-200",
+  Issued: "bg-red-50 text-red-700 ring-red-200",
+  Paid: "bg-zinc-900 text-white ring-zinc-900",
+  Overdue: "bg-rose-50 text-rose-700 ring-rose-200"
 };
 
 const chartColors = {
-  Active: "#0ea5a3",
-  "Credit Hold": "#f59e0b",
-  Suspended: "#ef4444",
-  Low: "#14b8a6",
-  Medium: "#0284c7",
-  High: "#ef4444"
-};
-
-const kpiTones = {
-  cyan: "from-cyan-500 to-sky-400 text-white shadow-cyan-500/20",
-  green: "from-teal-500 to-emerald-400 text-white shadow-teal-500/20",
-  yellow: "from-amber-400 to-orange-400 text-white shadow-amber-500/20",
-  red: "from-rose-500 to-red-400 text-white shadow-rose-500/20"
+  Active: "#e70f25",
+  "Credit Hold": "#111827",
+  Suspended: "#d1d5db",
+  Low: "#e70f25",
+  Medium: "#111827",
+  High: "#9f1239"
 };
 
 const formatCurrency = (value) =>
@@ -76,56 +161,22 @@ const countByField = (customers, field) =>
     }, {})
   ).map(([name, value]) => ({ name, value }));
 
-function Badge({ value, type }) {
-  const styles = type === "risk" ? riskStyles : statusStyles;
-  return (
-    <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold shadow-sm ${styles[value]}`}
-    >
-      {value}
-    </span>
-  );
-}
-
-function KpiCard({ title, value, icon: Icon, tone }) {
-  return (
-    <section className="glass-card p-4">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium text-sky-800/65">{title}</p>
-          <p className="mt-2 text-2xl font-bold tracking-normal text-sky-950">{value}</p>
-        </div>
-        <div className={`rounded-full bg-gradient-to-br p-3 shadow-lg ${kpiTones[tone]}`}>
-          <Icon className="h-6 w-6" aria-hidden="true" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
-  const [riskFilter, setRiskFilter] = useState("All");
   const [selectedCustomerCode, setSelectedCustomerCode] = useState(
     mockCustomers[0].customerCode
   );
 
-  // Beginner note: filter values live in state, then this derived list updates from mock data.
   const filteredCustomers = useMemo(() => {
     const normalizedSearch = searchTerm.trim().toLowerCase();
 
     return mockCustomers.filter((customer) => {
-      const matchesSearch =
+      return (
         customer.customerCode.toLowerCase().includes(normalizedSearch) ||
-        customer.customerName.toLowerCase().includes(normalizedSearch);
-      const matchesStatus =
-        statusFilter === "All" || customer.status === statusFilter;
-      const matchesRisk = riskFilter === "All" || customer.riskLevel === riskFilter;
-
-      return matchesSearch && matchesStatus && matchesRisk;
+        customer.customerName.toLowerCase().includes(normalizedSearch)
+      );
     });
-  }, [searchTerm, statusFilter, riskFilter]);
+  }, [searchTerm]);
 
   const selectedCustomer =
     mockCustomers.find((customer) => customer.customerCode === selectedCustomerCode) ||
@@ -137,6 +188,17 @@ function App() {
     0
   );
 
+  const activeCustomers = mockCustomers.filter(
+    (customer) => customer.status === "Active"
+  ).length;
+  const highRiskCustomers = mockCustomers.filter(
+    (customer) => customer.riskLevel === "High"
+  ).length;
+  const ticketedBookings = mockBookings.filter(
+    (booking) => booking.status === "Ticketed"
+  ).length;
+  const paidInvoices = mockInvoices.filter((invoice) => invoice.status === "Paid").length;
+
   const statusChartData = countByField(mockCustomers, "status");
   const riskChartData = countByField(mockCustomers, "riskLevel");
 
@@ -147,9 +209,9 @@ function App() {
         label: "Customers",
         data: statusChartData.map((entry) => entry.value),
         backgroundColor: statusChartData.map((entry) => chartColors[entry.name]),
-        borderRadius: 10,
+        borderRadius: 12,
         borderSkipped: false,
-        maxBarThickness: 64
+        maxBarThickness: 44
       }
     ]
   };
@@ -160,300 +222,442 @@ function App() {
       {
         data: riskChartData.map((entry) => entry.value),
         backgroundColor: riskChartData.map((entry) => chartColors[entry.name]),
-        borderColor: "rgba(255, 255, 255, 0.82)",
-        borderWidth: 2,
+        borderColor: "#ffffff",
+        borderWidth: 4,
         hoverOffset: 8,
-        cutout: "64%"
+        cutout: "66%"
       }
     ]
   };
 
   return (
-    <main
-      className="dashboard-bg min-h-screen overflow-x-hidden px-4 py-6 text-sky-950 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto flex max-w-[1500px] gap-5">
-        <nav className="glass-nav hidden shrink-0 flex-col items-center gap-5 px-3 py-5 lg:flex">
-          {[LayoutDashboard, Gauge, Users, SlidersHorizontal, ShieldAlert].map(
-            (Icon, index) => (
-              <button
-                key={index}
-                className={`grid h-11 w-11 place-items-center rounded-full border transition ${
-                  index === 0
-                    ? "border-sky-300 bg-white/65 text-sky-700 shadow-lg"
-                    : "border-sky-200/60 bg-white/35 text-sky-700/72 hover:bg-white/60"
-                }`}
-                aria-label={`Dashboard navigation ${index + 1}`}
-              >
-                <Icon className="h-5 w-5" />
-              </button>
-            )
-          )}
-        </nav>
+    <main className="dashboard-bg min-h-screen overflow-x-hidden px-4 py-6 text-zinc-950 sm:px-6 lg:px-8">
+      <div className="app-shell mx-auto grid max-w-[1500px] grid-cols-1 overflow-hidden lg:grid-cols-[230px_minmax(0,1fr)]">
+        <Sidebar />
 
-        <div className="glass-shell min-w-0 flex-1 p-5 md:p-7">
-          <header className="flex flex-col gap-5 border-b border-sky-200/60 pb-5 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-cyan-700">
-                Marketing & Supervisor View
-              </p>
-              <h1 className="mt-2 text-4xl font-bold tracking-normal text-sky-950 md:text-5xl">
-                Customer Status Dashboard
-              </h1>
-              <p className="mt-3 max-w-3xl text-sm leading-6 text-sky-900/68">
-                Prototype dashboard for monitoring customer health, credit usage,
-                payment status, and risk level in one clear overview.
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="hidden rounded-full border border-sky-200/70 bg-white/50 p-3 text-sky-700 sm:grid">
-                <Bell className="h-5 w-5" />
-              </div>
-              <div className="rounded-full border border-sky-200/70 bg-white/45 p-1">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-sky-400 text-white">
-                  <UserRound className="h-6 w-6" />
+        <section className="dashboard-surface min-w-0 p-5 md:p-7">
+          <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
+          <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_430px]">
+            <section className="grid gap-4 md:grid-cols-2">
+              <MetricCard
+                title="Total Customers"
+                value={mockCustomers.length}
+                change="+3.3%"
+                icon={Users}
+              />
+              <MetricCard
+                title="Outstanding Balance"
+                value={formatCurrency(totalOutstanding)}
+                change="+6.1%"
+                icon={CircleDollarSign}
+              />
+              <MetricCard
+                title="Ticketed Bookings"
+                value={ticketedBookings}
+                change="+2.1%"
+                icon={Ticket}
+                featured
+              />
+              <MetricCard
+                title="Paid Invoices"
+                value={`${paidInvoices}/5`}
+                change="+3.2%"
+                icon={CreditCard}
+              />
+            </section>
+
+            <section className="dashboard-card grid min-h-[220px] grid-cols-[110px_minmax(0,1fr)] gap-4 p-5">
+              <div>
+                <p className="text-lg font-bold text-zinc-950">Customer Pulse</p>
+                <div className="mt-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-lg font-bold text-white">
+                  {activeCustomers}
                 </div>
-              </div>
-            </div>
-          </header>
-
-          <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            <KpiCard
-              title="Total Customers"
-              value={mockCustomers.length}
-              icon={Users}
-              tone="cyan"
-            />
-            <KpiCard
-              title="Active Customers"
-              value={mockCustomers.filter((customer) => customer.status === "Active").length}
-              icon={CheckCircle2}
-              tone="green"
-            />
-            <KpiCard
-              title="Outstanding Balance"
-              value={formatCurrency(totalOutstanding)}
-              icon={CircleDollarSign}
-              tone="yellow"
-            />
-            <KpiCard
-              title="High Risk Customers"
-              value={mockCustomers.filter((customer) => customer.riskLevel === "High").length}
-              icon={ShieldAlert}
-              tone="red"
-            />
-          </section>
-
-          <section className="mt-5 grid gap-5 xl:grid-cols-[minmax(0,1fr)_390px]">
-            <div className="glass-card min-w-0 overflow-hidden">
-              <div className="border-b border-sky-200/60 p-4">
-                <div className="grid gap-3 md:grid-cols-[minmax(220px,1fr)_180px_180px]">
-                  <label className="relative block">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-sky-700/45" />
-                    <input
-                      value={searchTerm}
-                      onChange={(event) => setSearchTerm(event.target.value)}
-                      placeholder="Search customer code or name"
-                      className="glass-input h-11 w-full pl-10 pr-3"
-                    />
-                  </label>
-                  <select
-                    value={statusFilter}
-                    onChange={(event) => setStatusFilter(event.target.value)}
-                    className="glass-input h-11 px-3"
-                  >
-                    <option value="All">All statuses</option>
-                    <option value="Active">Active</option>
-                    <option value="Credit Hold">Credit Hold</option>
-                    <option value="Suspended">Suspended</option>
-                  </select>
-                  <select
-                    value={riskFilter}
-                    onChange={(event) => setRiskFilter(event.target.value)}
-                    className="glass-input h-11 px-3"
-                  >
-                    <option value="All">All risk levels</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[1050px] text-left text-sm">
-                  <thead className="bg-sky-100/55 text-xs uppercase text-sky-800/55">
-                    <tr>
-                      <th className="px-4 py-3 font-semibold">Customer Code</th>
-                      <th className="px-4 py-3 font-semibold">Customer Name</th>
-                      <th className="px-4 py-3 font-semibold">Group</th>
-                      <th className="px-4 py-3 font-semibold">Status</th>
-                      <th className="px-4 py-3 font-semibold">Marketing Owner</th>
-                      <th className="px-4 py-3 text-right font-semibold">Outstanding</th>
-                      <th className="px-4 py-3 font-semibold">Payment</th>
-                      <th className="px-4 py-3 font-semibold">Risk</th>
-                      <th className="px-4 py-3 font-semibold">Last Transaction</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/8">
-                    {filteredCustomers.map((customer) => (
-                      <tr
-                        key={customer.customerCode}
-                        onClick={() => setSelectedCustomerCode(customer.customerCode)}
-                        className={`cursor-pointer transition hover:bg-sky-100/70 ${
-                          selectedCustomer.customerCode === customer.customerCode
-                            ? "bg-cyan-100/75"
-                            : "bg-transparent"
-                        }`}
-                      >
-                        <td className="px-4 py-3 font-semibold text-sky-950">
-                          {customer.customerCode}
-                        </td>
-                        <td className="px-4 py-3 text-sky-900/82">
-                          {customer.customerName}
-                        </td>
-                        <td className="px-4 py-3 text-sky-900/62">
-                          {customer.customerGroup}
-                        </td>
-                        <td className="px-4 py-3">
-                          <Badge value={customer.status} />
-                        </td>
-                        <td className="px-4 py-3 text-sky-900/62">
-                          {customer.marketingOwner}
-                        </td>
-                        <td className="px-4 py-3 text-right font-medium text-sky-950/86">
-                          {formatCurrency(customer.outstandingBalance)}
-                        </td>
-                        <td className="px-4 py-3 text-sky-900/62">
-                          {customer.paymentStatus}
-                        </td>
-                        <td className="px-4 py-3">
-                          <Badge value={customer.riskLevel} type="risk" />
-                        </td>
-                        <td className="px-4 py-3 text-sky-900/62">
-                          {customer.lastTransactionDate}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {filteredCustomers.length === 0 && (
-                  <div className="p-8 text-center text-sm text-sky-800/58">
-                    No customers match the current filters.
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <aside className="glass-card p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-sm font-semibold text-cyan-700">
-                    Selected Customer
-                  </p>
-                  <h2 className="mt-1 text-2xl font-bold tracking-normal text-sky-950">
-                    {selectedCustomer.customerName}
-                  </h2>
-                  <p className="mt-1 text-sm text-sky-800/55">
-                    {selectedCustomer.customerCode} - {selectedCustomer.customerGroup}
-                  </p>
-                </div>
-                <Badge value={selectedCustomer.status} />
-              </div>
-
-              <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <DetailItem
-                  label="Credit Limit"
-                  value={formatCurrency(selectedCustomer.creditLimit)}
-                />
-                <DetailItem
-                  label="Available Credit"
-                  value={formatCurrency(selectedCustomer.availableCredit)}
-                />
-                <DetailItem
-                  label="Outstanding"
-                  value={formatCurrency(selectedCustomer.outstandingBalance)}
-                />
-                <DetailItem
-                  label="Monthly Usage"
-                  value={formatCurrency(selectedCustomer.monthlyUsage)}
-                />
-                <DetailItem label="Payment Status" value={selectedCustomer.paymentStatus} />
-                <DetailItem
-                  label="Risk Level"
-                  value={<Badge value={selectedCustomer.riskLevel} type="risk" />}
-                />
-                <DetailItem label="Marketing Owner" value={selectedCustomer.marketingOwner} />
-                <DetailItem label="Supervisor" value={selectedCustomer.supervisor} />
-              </dl>
-
-              <div className="mt-5 rounded-2xl border border-sky-200/60 bg-white/45 p-4 shadow-inner">
-                <div className="flex items-center gap-2 text-sm font-semibold text-sky-950">
-                  <AlertTriangle className="h-4 w-4 text-amber-500" />
-                  Remark
-                </div>
-                <p className="mt-2 text-sm leading-6 text-sky-900/66">
-                  {selectedCustomer.remark}
+                <p className="mt-5 text-4xl font-bold text-zinc-950">
+                  {highRiskCustomers}
                 </p>
+                <p className="text-sm text-zinc-500">High risk accounts</p>
               </div>
-            </aside>
-          </section>
+              <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-zinc-950 via-red-950 to-red-600 p-5 text-white">
+                <p className="text-sm text-white/70">Today</p>
+                <h2 className="mt-1 text-xl font-bold">{selectedCustomer.customerName}</h2>
+                <p className="mt-1 text-sm text-white/70">
+                  {selectedCustomer.customerCode} - {selectedCustomer.customerGroup}
+                </p>
+                <div className="absolute -bottom-8 -right-5 h-32 w-32 rounded-full bg-white/12" />
+                <Plane className="absolute bottom-7 right-8 h-16 w-16 rotate-12 text-white/82" />
+              </div>
+            </section>
+          </div>
 
-          <section className="mt-5 grid gap-5 lg:grid-cols-2">
-            <ChartCard title="Customers by Status" icon={Gauge}>
-              <div className="h-[260px]">
+          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)]">
+            <BookingStatusCard bookings={mockBookings} />
+            <InvoiceCard invoices={mockInvoices} />
+          </div>
+
+          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)]">
+            <CustomerSummaryCard
+              customers={filteredCustomers}
+              selectedCustomer={selectedCustomer}
+              onSelect={setSelectedCustomerCode}
+            />
+            <InsightsCard />
+          </div>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <ChartCard title="Customer Status Overview">
+              <div className="h-[220px]">
                 <Bar data={statusBarData} options={barChartOptions} />
               </div>
             </ChartCard>
-
-            <ChartCard title="Customers by Risk Level" icon={ShieldAlert}>
-              <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_180px]">
-                <div className="h-[260px]">
+            <ChartCard title="Team Performance Metrics">
+              <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_190px]">
+                <div className="h-[220px]">
                   <Doughnut data={riskDoughnutData} options={doughnutChartOptions} />
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {riskChartData.map((entry) => (
-                    <span
-                      key={entry.name}
-                      className="flex items-center justify-between gap-3 border-b border-sky-200/70 pb-3 text-sm text-sky-900/70"
-                    >
-                      <span className="flex items-center gap-2">
-                        <span
-                          className="h-3 w-3 rounded-full"
-                          style={{ backgroundColor: chartColors[entry.name] }}
-                        />
-                        {entry.name}
-                      </span>
-                      <strong className="text-sky-950">{entry.value}</strong>
-                    </span>
+                    <MetricLegend key={entry.name} entry={entry} />
                   ))}
                 </div>
               </div>
             </ChartCard>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     </main>
   );
 }
 
-const chartTextColor = "rgba(12, 74, 110, 0.68)";
-const chartGridColor = "rgba(14, 116, 144, 0.14)";
+function Sidebar() {
+  return (
+    <aside className="sidebar-shell hidden min-h-[760px] flex-col justify-between p-5 lg:flex">
+      <div>
+        <div className="mb-10 flex items-center gap-3">
+          <div className="grid h-12 w-12 place-items-center rounded-full bg-red-600 text-white shadow-lg shadow-red-500/25">
+            <Plane className="h-6 w-6" />
+          </div>
+          <span className="text-xl font-bold text-zinc-950">Dashboard</span>
+        </div>
+
+        <nav className="space-y-2">
+          {navItems.map(({ label, icon: Icon }, index) => (
+            <button
+              key={label}
+              className={`flex h-11 w-full items-center gap-3 rounded-2xl px-3 text-sm font-semibold transition ${
+                index === 0
+                  ? "bg-red-50 text-red-600"
+                  : "text-zinc-600 hover:bg-zinc-50 hover:text-red-600"
+              }`}
+            >
+              <Icon className="h-5 w-5" />
+              {label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      <div className="rounded-3xl bg-zinc-950 p-4 text-white shadow-xl">
+        <div className="flex items-center gap-3">
+          <CalendarDays className="h-9 w-9 rounded-2xl bg-white/10 p-2 text-red-100" />
+          <div>
+            <p className="text-lg font-bold">11 Jun</p>
+            <p className="text-xs text-white/62">Updated 10:00</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function Header({ searchTerm, setSearchTerm }) {
+  return (
+    <header className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center gap-3">
+        <span className="text-2xl font-bold text-red-600">&raquo;</span>
+        <div>
+          <h1 className="text-2xl font-bold tracking-normal text-zinc-950">
+            Customer Status Dashboard
+          </h1>
+          <p className="text-sm text-zinc-500">Marketing & Supervisor View</p>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <label className="relative block min-w-[280px]">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+          <input
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Search customers, bookings, and invoices"
+            className="glass-input h-11 w-full pl-10 pr-3"
+          />
+        </label>
+        <button className="relative grid h-11 w-11 place-items-center rounded-full border border-zinc-100 bg-white text-zinc-700 shadow-sm">
+          <Bell className="h-5 w-5" />
+          <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-red-600" />
+        </button>
+        <div className="flex items-center gap-3 rounded-full border border-zinc-100 bg-white py-1 pl-1 pr-4 shadow-sm">
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-red-600 to-red-500 text-white">
+            <UserRound className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-zinc-950">Steven</p>
+            <p className="text-xs text-zinc-500">Admin</p>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function MetricCard({ title, value, change, icon: Icon, featured = false }) {
+  return (
+    <section
+      className={`dashboard-card min-h-[126px] p-5 ${
+        featured ? "featured-card text-white" : "text-zinc-950"
+      }`}
+    >
+      <div className="flex items-start justify-between">
+        <div>
+          <p
+            className={`text-xs font-bold ${featured ? "text-white" : "text-red-600"}`}
+          >
+            ↗ {change}
+          </p>
+          <p className="mt-5 text-3xl font-bold">{value}</p>
+          <p className={`mt-1 text-sm ${featured ? "text-white/82" : "text-zinc-500"}`}>
+            {title}
+          </p>
+        </div>
+        <div
+          className={`grid h-12 w-12 place-items-center rounded-2xl ${
+            featured ? "bg-white/16 text-white" : "bg-red-50 text-red-600"
+          }`}
+        >
+          <Icon className="h-6 w-6" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BookingStatusCard({ bookings }) {
+  return (
+    <DataListCard title="Booking Status" action="See Details">
+      <div className="space-y-2">
+        {bookings.map((booking) => (
+          <div
+            key={booking.pnr}
+            className="grid grid-cols-[82px_minmax(0,1fr)_112px] items-center gap-3 rounded-2xl bg-zinc-50 px-3 py-3"
+          >
+            <div>
+              <p className="text-xs font-semibold uppercase text-zinc-400">PNR</p>
+              <p className="font-bold text-zinc-950">{booking.pnr}</p>
+            </div>
+            <div>
+              <p className="font-semibold text-zinc-800">{booking.routing}</p>
+              <p className="text-xs text-zinc-500">{booking.departureDate}</p>
+            </div>
+            <StatusPill status={booking.status} />
+          </div>
+        ))}
+      </div>
+    </DataListCard>
+  );
+}
+
+function InvoiceCard({ invoices }) {
+  return (
+    <DataListCard title="Latest Invoices" action="See all">
+      <div className="space-y-2">
+        {invoices.map((invoice) => (
+          <div
+            key={invoice.invoiceNo}
+            className="grid grid-cols-[minmax(0,1fr)_96px_116px] items-center gap-3 rounded-2xl bg-zinc-50 px-3 py-3"
+          >
+            <div>
+              <p className="font-bold text-zinc-950">{invoice.invoiceNo}</p>
+              <p className="text-xs text-zinc-500">{invoice.date}</p>
+            </div>
+            <p className="text-right font-semibold text-zinc-800">
+              {formatCurrency(invoice.amount)}
+            </p>
+            <StatusPill status={invoice.status} />
+          </div>
+        ))}
+      </div>
+    </DataListCard>
+  );
+}
+
+function CustomerSummaryCard({ customers, selectedCustomer, onSelect }) {
+  return (
+    <DataListCard title="Customer Snapshot" action="View Customers">
+      <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+        <div className="space-y-2">
+          {customers.slice(0, 5).map((customer) => (
+            <button
+              key={customer.customerCode}
+              onClick={() => onSelect(customer.customerCode)}
+              className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left transition ${
+                selectedCustomer.customerCode === customer.customerCode
+                  ? "bg-red-50"
+                  : "bg-zinc-50 hover:bg-red-50/70"
+              }`}
+            >
+              <div>
+                <p className="font-bold text-zinc-950">{customer.customerName}</p>
+                <p className="text-xs text-zinc-500">
+                  {customer.customerCode} - {customer.marketingOwner}
+                </p>
+              </div>
+              <StatusPill status={customer.status} />
+            </button>
+          ))}
+        </div>
+        <div className="rounded-[26px] bg-zinc-950 p-4 text-white">
+          <p className="text-sm text-white/60">Selected Customer</p>
+          <h3 className="mt-2 text-xl font-bold">{selectedCustomer.customerName}</h3>
+          <div className="mt-4 space-y-3 text-sm">
+            <DetailLine label="Credit Limit" value={formatCurrency(selectedCustomer.creditLimit)} />
+            <DetailLine
+              label="Available"
+              value={formatCurrency(selectedCustomer.availableCredit)}
+            />
+            <DetailLine
+              label="Outstanding"
+              value={formatCurrency(selectedCustomer.outstandingBalance)}
+            />
+            <DetailLine label="Risk" value={selectedCustomer.riskLevel} />
+          </div>
+        </div>
+      </div>
+    </DataListCard>
+  );
+}
+
+function InsightsCard() {
+  const insights = [
+    {
+      icon: Plane,
+      title: "Booking Growth",
+      text: "Ticketed bookings remain stable across active corporate accounts."
+    },
+    {
+      icon: MapPin,
+      title: "Route Demand",
+      text: "BKK regional routes show higher upcoming departure volume."
+    },
+    {
+      icon: ShieldAlert,
+      title: "Risk Attention",
+      text: "High-risk customers should be reviewed before new credit approval."
+    }
+  ];
+
+  return (
+    <DataListCard title="AI Insights" action="See Details">
+      <div className="space-y-3">
+        {insights.map(({ icon: Icon, title, text }) => (
+          <div key={title} className="flex gap-4 rounded-2xl bg-zinc-50 p-4">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-red-50 text-red-600">
+              <Icon className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-bold text-red-600">{title}</p>
+              <p className="mt-1 text-sm leading-6 text-zinc-600">{text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </DataListCard>
+  );
+}
+
+function DataListCard({ title, action, children }) {
+  return (
+    <section className="dashboard-card p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-xl font-bold tracking-normal text-zinc-950">{title}</h2>
+        <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600">
+          {action}
+        </span>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function ChartCard({ title, children }) {
+  return (
+    <section className="dashboard-card p-5">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <h2 className="text-xl font-bold tracking-normal text-zinc-950">{title}</h2>
+        <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-bold text-red-600">
+          See Details
+        </span>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function StatusPill({ status }) {
+  return (
+    <span
+      className={`justify-self-end rounded-full px-3 py-1 text-center text-xs font-bold ring-1 ${
+        statusStyles[status] || "bg-zinc-100 text-zinc-700 ring-zinc-200"
+      }`}
+    >
+      {status}
+    </span>
+  );
+}
+
+function MetricLegend({ entry }) {
+  return (
+    <div className="flex items-center justify-between border-b border-zinc-100 pb-3 text-sm text-zinc-600">
+      <span className="flex items-center gap-2">
+        <span
+          className="h-3 w-3 rounded-full"
+          style={{ backgroundColor: chartColors[entry.name] }}
+        />
+        {entry.name}
+      </span>
+      <strong className="text-zinc-950">{entry.value}</strong>
+    </div>
+  );
+}
+
+function DetailLine({ label, value }) {
+  return (
+    <div className="flex items-center justify-between gap-3 border-b border-white/10 pb-2">
+      <span className="text-white/58">{label}</span>
+      <strong className="text-right text-white">{value}</strong>
+    </div>
+  );
+}
+
+const chartTextColor = "rgba(63, 63, 70, 0.72)";
+const chartGridColor = "rgba(228, 228, 231, 0.9)";
+
+const tooltipOptions = {
+  backgroundColor: "rgba(24, 24, 27, 0.92)",
+  borderColor: "rgba(255, 255, 255, 0.9)",
+  borderWidth: 1,
+  cornerRadius: 14,
+  titleColor: "#fff",
+  bodyColor: "#fff",
+  padding: 12
+};
 
 const barChartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: { display: false },
-    tooltip: {
-      backgroundColor: "rgba(8, 47, 73, 0.92)",
-      borderColor: "rgba(255, 255, 255, 0.74)",
-      borderWidth: 1,
-      cornerRadius: 14,
-      titleColor: "#fff",
-      bodyColor: "#fff",
-      padding: 12
-    }
+    tooltip: tooltipOptions
   },
   scales: {
     x: {
@@ -474,42 +678,8 @@ const doughnutChartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: { display: false },
-    tooltip: {
-      backgroundColor: "rgba(8, 47, 73, 0.92)",
-      borderColor: "rgba(255, 255, 255, 0.74)",
-      borderWidth: 1,
-      cornerRadius: 14,
-      titleColor: "#fff",
-      bodyColor: "#fff",
-      padding: 12
-    }
+    tooltip: tooltipOptions
   }
 };
-
-function DetailItem({ label, value }) {
-  return (
-    <div className="rounded-2xl border border-sky-200/60 bg-white/45 p-3 shadow-inner">
-      <dt className="text-xs font-semibold uppercase text-sky-800/55">{label}</dt>
-      <dd className="mt-1 text-sm font-semibold text-sky-950">{value}</dd>
-    </div>
-  );
-}
-
-function ChartCard({ title, icon: Icon, children }) {
-  return (
-    <section className="glass-card p-5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="rounded-full border border-sky-200/70 bg-white/55 p-2.5 text-cyan-700">
-            <Icon className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <h2 className="text-xl font-bold tracking-normal text-sky-950">{title}</h2>
-        </div>
-        <span className="text-sm text-sky-800/55">Monthly</span>
-      </div>
-      {children}
-    </section>
-  );
-}
 
 export default App;
