@@ -4,8 +4,8 @@
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
-  color: #172033;
-  background: #eef3f8;
+  color: #ffffff;
+  background: #081316;
 }
 
 body {
@@ -16,4 +16,113 @@ button,
 input,
 select {
   font: inherit;
+}
+
+option {
+  color: #172033;
+}
+
+.dashboard-bg {
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.dashboard-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 70% 45%, rgba(203, 232, 218, 0.2), transparent 26%),
+    linear-gradient(90deg, rgba(5, 13, 17, 0.58), rgba(9, 23, 29, 0.26) 48%, rgba(5, 11, 14, 0.68)),
+    linear-gradient(180deg, rgba(2, 10, 13, 0.28), rgba(2, 8, 10, 0.6));
+}
+
+.dashboard-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-shell {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 34px;
+  background:
+    linear-gradient(135deg, rgba(96, 122, 126, 0.42), rgba(37, 44, 40, 0.54)),
+    rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 30px 90px rgba(0, 0, 0, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(22px) saturate(140%);
+}
+
+.glass-card {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 22px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.055)),
+    rgba(21, 27, 25, 0.28);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.glass-nav {
+  margin-top: 210px;
+  max-height: 390px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(111, 131, 111, 0.36);
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px) saturate(130%);
+}
+
+.glass-input {
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.875rem;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.glass-input:focus {
+  border-color: rgba(190, 220, 37, 0.72);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 4px rgba(190, 220, 37, 0.13);
+}
+
+.overflow-x-auto {
+  scrollbar-color: rgba(255, 255, 255, 0.36) rgba(255, 255, 255, 0.08);
+  scrollbar-width: thin;
+}
+
+.overflow-x-auto::-webkit-scrollbar {
+  height: 10px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .glass-shell {
+    border-radius: 24px;
+  }
 }
