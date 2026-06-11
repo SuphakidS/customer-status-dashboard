@@ -5,14 +5,14 @@
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
+    "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
+    "chart.js": "^4.5.1",
+    "lucide-react": "latest",
     "react": "latest",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "latest",
     "tailwindcss": "latest",
-    "@tailwindcss/vite": "latest",
-    "lucide-react": "latest",
-    "recharts": "latest"
-  },
-  "devDependencies": {}
+    "vite": "latest"
+  }
 }

@@ -13,19 +13,26 @@ import {
   Users
 } from "lucide-react";
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
-} from "recharts";
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  Tooltip
+} from "chart.js";
+import { Bar, Doughnut } from "react-chartjs-2";
 import officeBg from "./assets/glass-office-bg.png";
 import { mockCustomers } from "./data/mockCustomers";
+
+ChartJS.register(
+  ArcElement,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Legend,
+  Tooltip
+);
 
 const statusStyles = {
   Active: "border-emerald-300/40 bg-emerald-300/18 text-emerald-100",
@@ -133,6 +140,34 @@ function App() {
 
   const statusChartData = countByField(mockCustomers, "status");
   const riskChartData = countByField(mockCustomers, "riskLevel");
+
+  const statusBarData = {
+    labels: statusChartData.map((entry) => entry.name),
+    datasets: [
+      {
+        label: "Customers",
+        data: statusChartData.map((entry) => entry.value),
+        backgroundColor: statusChartData.map((entry) => chartColors[entry.name]),
+        borderRadius: 10,
+        borderSkipped: false,
+        maxBarThickness: 64
+      }
+    ]
+  };
+
+  const riskDoughnutData = {
+    labels: riskChartData.map((entry) => entry.name),
+    datasets: [
+      {
+        data: riskChartData.map((entry) => entry.value),
+        backgroundColor: riskChartData.map((entry) => chartColors[entry.name]),
+        borderColor: "rgba(255, 255, 255, 0.18)",
+        borderWidth: 2,
+        hoverOffset: 8,
+        cutout: "64%"
+      }
+    ]
+  };
 
   return (
     <main
@@ -368,41 +403,16 @@ function App() {
 
           <section className="mt-5 grid gap-5 lg:grid-cols-2">
             <ChartCard title="Customers by Status" icon={Gauge}>
-              <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={statusChartData} margin={{ left: -20, right: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.12)" vertical={false} />
-                  <XAxis dataKey="name" tickLine={false} axisLine={false} stroke="rgba(255,255,255,.62)" />
-                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} stroke="rgba(255,255,255,.62)" />
-                  <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "#fff" }} />
-                  <Bar dataKey="value" radius={[10, 10, 0, 0]}>
-                    {statusChartData.map((entry) => (
-                      <Cell key={entry.name} fill={chartColors[entry.name]} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <div className="h-[260px]">
+                <Bar data={statusBarData} options={barChartOptions} />
+              </div>
             </ChartCard>
 
             <ChartCard title="Customers by Risk Level" icon={ShieldAlert}>
               <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_180px]">
-                <ResponsiveContainer width="100%" height={260}>
-                  <PieChart>
-                    <Pie
-                      data={riskChartData}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={62}
-                      outerRadius={96}
-                      paddingAngle={4}
-                      label
-                    >
-                      {riskChartData.map((entry) => (
-                        <Cell key={entry.name} fill={chartColors[entry.name]} />
-                      ))}
-                    </Pie>
-                    <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "#fff" }} />
-                  </PieChart>
-                </ResponsiveContainer>
+                <div className="h-[260px]">
+                  <Doughnut data={riskDoughnutData} options={doughnutChartOptions} />
+                </div>
                 <div className="space-y-4">
                   {riskChartData.map((entry) => (
                     <span
@@ -429,12 +439,53 @@ function App() {
   );
 }
 
-const tooltipStyle = {
-  background: "rgba(20, 32, 36, 0.86)",
-  border: "1px solid rgba(255, 255, 255, 0.16)",
-  borderRadius: "14px",
-  color: "#fff",
-  boxShadow: "0 18px 45px rgba(0, 0, 0, 0.28)"
+const chartTextColor = "rgba(255, 255, 255, 0.68)";
+const chartGridColor = "rgba(255, 255, 255, 0.12)";
+
+const barChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: "rgba(20, 32, 36, 0.9)",
+      borderColor: "rgba(255, 255, 255, 0.16)",
+      borderWidth: 1,
+      cornerRadius: 14,
+      titleColor: "#fff",
+      bodyColor: "#fff",
+      padding: 12
+    }
+  },
+  scales: {
+    x: {
+      grid: { display: false },
+      ticks: { color: chartTextColor }
+    },
+    y: {
+      beginAtZero: true,
+      precision: 0,
+      grid: { color: chartGridColor },
+      ticks: { color: chartTextColor, stepSize: 1 }
+    }
+  }
+};
+
+const doughnutChartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: {
+      backgroundColor: "rgba(20, 32, 36, 0.9)",
+      borderColor: "rgba(255, 255, 255, 0.16)",
+      borderWidth: 1,
+      cornerRadius: 14,
+      titleColor: "#fff",
+      bodyColor: "#fff",
+      padding: 12
+    }
+  }
 };
 
 function DetailItem({ label, value }) {
