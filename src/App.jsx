@@ -346,8 +346,8 @@ function Sidebar() {
               key={label}
               className={`flex h-11 w-full items-center gap-3 rounded-2xl px-3 text-sm font-semibold transition ${
                 index === 0
-                  ? "bg-red-50 text-red-600"
-                  : "text-zinc-600 hover:bg-zinc-50 hover:text-red-600"
+                  ? "bg-white/58 text-red-600 shadow-sm ring-1 ring-white/60"
+                  : "text-zinc-600 hover:bg-white/42 hover:text-red-600"
               }`}
             >
               <Icon className="h-5 w-5" />
@@ -357,7 +357,7 @@ function Sidebar() {
         </nav>
       </div>
 
-      <div className="rounded-3xl bg-zinc-950 p-4 text-white shadow-xl">
+      <div className="rounded-3xl border border-white/18 bg-zinc-950/88 p-4 text-white shadow-xl backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <CalendarDays className="h-9 w-9 rounded-2xl bg-white/10 p-2 text-red-100" />
           <div>
@@ -393,11 +393,11 @@ function Header({ searchTerm, setSearchTerm }) {
             className="glass-input h-11 w-full pl-10 pr-3"
           />
         </label>
-        <button className="relative grid h-11 w-11 place-items-center rounded-full border border-zinc-100 bg-white text-zinc-700 shadow-sm">
+        <button className="relative grid h-11 w-11 place-items-center rounded-full border border-white/60 bg-white/62 text-zinc-700 shadow-sm backdrop-blur-xl">
           <Bell className="h-5 w-5" />
           <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-red-600" />
         </button>
-        <div className="flex items-center gap-3 rounded-full border border-zinc-100 bg-white py-1 pl-1 pr-4 shadow-sm">
+        <div className="flex items-center gap-3 rounded-full border border-white/60 bg-white/62 py-1 pl-1 pr-4 shadow-sm backdrop-blur-xl">
           <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-red-600 to-red-500 text-white">
             <UserRound className="h-5 w-5" />
           </div>
@@ -449,7 +449,7 @@ function BookingStatusCard({ bookings }) {
         {bookings.map((booking) => (
           <div
             key={booking.pnr}
-            className="grid grid-cols-[82px_minmax(0,1fr)_112px] items-center gap-3 rounded-2xl bg-zinc-50 px-3 py-3"
+            className="liquid-row grid grid-cols-[82px_minmax(0,1fr)_112px] items-center gap-3 px-3 py-3"
           >
             <div>
               <p className="text-xs font-semibold uppercase text-zinc-400">PNR</p>
@@ -474,7 +474,7 @@ function InvoiceCard({ invoices }) {
         {invoices.map((invoice) => (
           <div
             key={invoice.invoiceNo}
-            className="grid grid-cols-[minmax(0,1fr)_96px_116px] items-center gap-3 rounded-2xl bg-zinc-50 px-3 py-3"
+            className="liquid-row grid grid-cols-[minmax(0,1fr)_96px_116px] items-center gap-3 px-3 py-3"
           >
             <div>
               <p className="font-bold text-zinc-950">{invoice.invoiceNo}</p>
@@ -502,8 +502,8 @@ function CustomerSummaryCard({ customers, selectedCustomer, onSelect }) {
               onClick={() => onSelect(customer.customerCode)}
               className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 text-left transition ${
                 selectedCustomer.customerCode === customer.customerCode
-                  ? "bg-red-50"
-                  : "bg-zinc-50 hover:bg-red-50/70"
+                  ? "bg-white/62 shadow-sm ring-1 ring-red-100/80"
+                  : "bg-white/34 hover:bg-white/56"
               }`}
             >
               <div>
@@ -516,7 +516,7 @@ function CustomerSummaryCard({ customers, selectedCustomer, onSelect }) {
             </button>
           ))}
         </div>
-        <div className="rounded-[26px] bg-zinc-950 p-4 text-white">
+        <div className="rounded-[26px] border border-white/16 bg-zinc-950/88 p-4 text-white shadow-xl backdrop-blur-xl">
           <p className="text-sm text-white/60">Selected Customer</p>
           <h3 className="mt-2 text-xl font-bold">{selectedCustomer.customerName}</h3>
           <div className="mt-4 space-y-3 text-sm">
@@ -560,8 +560,8 @@ function InsightsCard() {
     <DataListCard title="AI Insights" action="See Details">
       <div className="space-y-3">
         {insights.map(({ icon: Icon, title, text }) => (
-          <div key={title} className="flex gap-4 rounded-2xl bg-zinc-50 p-4">
-            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-red-50 text-red-600">
+          <div key={title} className="liquid-row flex gap-4 p-4">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white/58 text-red-600 shadow-sm">
               <Icon className="h-5 w-5" />
             </div>
             <div>
