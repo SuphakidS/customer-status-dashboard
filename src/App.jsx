@@ -231,14 +231,14 @@ function App() {
   };
 
   return (
-    <main className="dashboard-bg min-h-screen overflow-x-hidden px-4 py-6 text-zinc-950 sm:px-6 lg:px-8">
-      <div className="app-shell mx-auto grid max-w-[1500px] grid-cols-1 overflow-hidden lg:grid-cols-[230px_minmax(0,1fr)]">
+    <main className="dashboard-bg min-h-screen overflow-x-hidden p-2 text-zinc-950 sm:p-3 lg:p-4">
+      <div className="app-shell mx-auto grid min-h-[calc(100dvh-1rem)] w-full grid-cols-1 overflow-hidden sm:min-h-[calc(100dvh-1.5rem)] lg:min-h-[calc(100dvh-2rem)] lg:grid-cols-[230px_minmax(0,1fr)] 2xl:grid-cols-[260px_minmax(0,1fr)]">
         <Sidebar />
 
-        <section className="dashboard-surface min-w-0 p-5 md:p-7">
+        <section className="dashboard-surface min-w-0 p-4 md:p-5 xl:p-6 2xl:p-7">
           <Header searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-          <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_430px]">
+          <div className="mt-5 grid gap-4 xl:grid-cols-[minmax(0,1fr)_430px] 2xl:grid-cols-[minmax(0,1fr)_520px]">
             <section className="grid gap-4 md:grid-cols-2">
               <MetricCard
                 title="Total Customers"
@@ -290,12 +290,12 @@ function App() {
             </section>
           </div>
 
-          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)]">
+          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,.95fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <BookingStatusCard bookings={mockBookings} />
             <InvoiceCard invoices={mockInvoices} />
           </div>
 
-          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)]">
+          <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,.9fr)_minmax(0,1.1fr)] 2xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
             <CustomerSummaryCard
               customers={filteredCustomers}
               selectedCustomer={selectedCustomer}
